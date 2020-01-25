@@ -1,0 +1,95 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<openssl/evp.h>
+#include<ctype.h>
+
+int compare_i(char const *str1, char const *str2){
+	for(;str1!='\0' || str2!='\0';str1++,str2++) {
+		int diff = tolower(*str1) - tolower(*str2);
+		if(diff != 0 ) {
+			return diff;
+		}
+	}
+}
+
+
+int main(){
+	char input_file_name[20] = "words.txt";
+	char output_file_name[20] = "result.txt";
+	FILE *wfptr = NULL;
+	FILE *outptr = NULL;
+	ssize_t readlen=0;
+	size_t len;
+	char padd[16] ="###############";
+
+	char *word = (char*) malloc(1024);
+	char *outbuf = (char*) malloc(1024);
+	int tmplen =0;
+	EVP_CIPHER_CTX ctx;
+	/* Bogus key and IV: we'd normally set these from
+	 * another source.
+	 */
+	char inText[] = "This is a top secret.";
+	unsigned char key[] = "0123456789abcdeF";
+	unsigned char iv[] = {0xaa,0xbb,0xcc,0xdd,0xee,0xff,0x00,0x99,0x88,0x77,0x66,0x55,0x44,0x33,0x22,0x11};
+	unsigned char cypher_text[] = "062ff0112cb32d04d0adcfa02d215abd40a5f932da1ebbd3744de5d16be5a4d7";
+	/* Don't set key or IV right away; we want to check lengths */
+	EVP_CIPHER_CTX_init(&ctx);
+
+	/* Now we can set key and IV */
+	wfptr = fopen("words.txt","r");
+	//outptr = fopen("result.txt","wb"); 
+	if(wfptr == NULL) {
+		printf("couldnt open password file");
+		return 0;
+	}
+	int count =0,outlen = 0;
+	memset(word,0,1024);
+	while((readlen = getline(&word, &len, wfptr)!=-1)){
+		count++;
+		if(count==5) break;
+		printf("%d,%s",strlen(word),word);
+		word[strlen(word)-1] ='\0';
+	         printf("\nbefore checking");	
+		if(strlen(word)<16) {
+			printf("\nkey is smaller");
+			strncat(word,padd,16-strlen(word));
+		}
+		word[strlen(word)] = '\0';
+		printf("%s %d", word, strlen(word));
+
+		printf("encrypt init");
+		EVP_EncryptInit_ex(&ctx, EVP_aes_128_cbc(), NULL, word, iv);
+		if(!EVP_EncryptUpdate(&ctx, outbuf, &outlen, inText, strlen(inText)))
+		{
+			/* Error */
+			EVP_CIPHER_CTX_cleanup(&ctx);
+			return 0;
+		}
+		if(!EVP_EncryptFinal_ex(&ctx,outbuf+ outlen, &tmplen)){
+			EVP_CIPHER_CTX_cleanup(&ctx);
+		}
+		outlen +=tmplen;
+		char* enc_str = (char*) malloc(2*outlen +1);
+		char* enc_ptr = enc_str;
+		printf("]noutlen%d templen%d\n",outlen, tmplen);
+		for(int i=0;i<outlen;i++) {
+			enc_str +=sprintf( enc_str,"%02x",outbuf[i]);
+		}
+		*(enc_str + 1) = '\0';
+		printf("%s\n", enc_ptr);
+		/*if(!compare_i(enc_ptr, cypher_text)) {
+			printf("Found key %s\n", word);
+			break;
+		}*/
+		//fwrite(outbuf, 1, outlen, out);
+		EVP_CIPHER_CTX_cleanup(&ctx);
+		free(enc_ptr);
+
+//		memset(word,0,1024);
+	}
+	//free(word);
+//		fclose(wfptr);
+	return 0;
+}

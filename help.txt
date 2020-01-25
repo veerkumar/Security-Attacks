@@ -1,0 +1,25 @@
+https://quizlet.com/327775055/info-security-flash-cards/
+https://www.simonsingh.net/The_Black_Chamber/substitutioncrackingtool.html
+
+
+Lab1
+https://vortana.wordpress.com/2015/05/29/crypto-lab-secret-key-encryption-part-1/
+https://github.com/roflcer/Crypto-Lab-Secret-Key-Encryption
+https://vortana.wordpress.com/2015/05/30/crypto-lab-secret-key-encryption-part-2/
+
+
+chapter 3
+https://www.coursehero.com/file/pk4ifg/Explain-how-to-do-random-access-on-data-encrypted-in-CBC-mode-Are-there-any/
+https://crypto.stackexchange.com/questions/51793/do-i-need-to-generate-unique-iv-for-cbc-encryption-of-a-file-if-i-encrypt-multip
+https://crypto.stackexchange.com/questions/225/should-i-use-ecb-or-cbc-encryption-mode-for-my-block-cipher
+
+
+
+https://www.mdpi.com/2076-3417/6/11/358/htm   or https://etherealmind.com/tcp-syn-cookies-ddos-defence/
+https://www.akamai.com/us/en/about/news/press/2015-press/akamai-warns-of-3-new-reflection-ddos-attack-vectors.jsp
+https://www.imperva.com/learn/application-security/dns-spoofing/
+https://almams.com/index.php/best-quiz-questions-linux-unix-operating-systems/
+
+https://www.coursehero.com/file/p6lorvp/a-Why-does-the-SA-reset-the-password-instead-of-giving-Alice-her-previous/
+https://cseweb.ucsd.edu/classes/fa14/cse127-a/lec4.pdf
+
